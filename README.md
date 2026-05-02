@@ -44,3 +44,25 @@ flowchart TB
 ```
 
 
+Sequence Diagram - "User Presses f" Flow
+```mermaid
+sequenceDiagram
+    actor User
+    participant UI as BrowserView<br/>Display Layer
+    participant FE as FilterEngine<br/>Logic Layer  
+    participant Lib as Library<br/>Metadata Layer
+    participant Track as Track Objects
+    
+    User->>UI: Press 'f'
+    UI->>User: Prompt: Field?
+    User->>UI: "energy"
+    UI->>User: Prompt: Operator?
+    User->>UI: ">="
+    UI->>User: Prompt: Value?
+    User->>UI: "8"
+    UI->>UI: Create Rule(energy, >=, 8)
+    UI->>FE: applyRules(allTracks, activeRules)
+    FE->>Lib: getAllTracks()
+    Lib-->>FE: List<Track> 15+ tracks
+```
+
