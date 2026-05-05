@@ -51,18 +51,34 @@ sequenceDiagram
     participant UI as BrowserView<br/>Display Layer
     participant FE as FilterEngine<br/>Logic Layer  
     participant Lib as Library<br/>Metadata Layer
-    participant Track as Track Objects
-    
-    User->>UI: Press 'f'
-    UI->>User: Prompt: Field?
-    User->>UI: "energy"
-    UI->>User: Prompt: Operator?
-    User->>UI: ">="
-    UI->>User: Prompt: Value?
-    User->>UI: "8"
-    UI->>UI: Create Rule(energy, >=, 8)
-    UI->>FE: applyRules(allTracks, activeRules)
-    FE->>Lib: getAllTracks()
-    Lib-->>FE: List<Track> 15+ tracks
-```
+    participant PL as Playlist Manager
 
+    User->>UI: Press 'f'
+    UI->>User: Prompt: Enter keyword or rule
+
+    alt User types "kpop"
+        UI->>FE: applyRules(genre == "kpop")
+        FE->>Lib: getAllTracks()
+        Lib-->>FE: List<Track>
+        FE-->>PL: Create Playlist "Kpop"
+        PL-->>UI: Show Kpop Playlist
+    else User types "rap"
+        UI->>FE: applyRules(genre == "rap")
+        FE->>Lib: getAllTracks()
+        Lib-->>FE: List<Track>
+        FE-->>PL: Create Playlist "Rap"
+        PL-->>UI: Show Rap Playlist
+    else User types "energy <= 5"
+        UI->>FE: applyRules(energy <= 5)
+        FE->>Lib: getAllTracks()
+        Lib-->>FE: List<Track>
+        FE-->>PL: Create Playlist "Relapse/Sad Songs"
+        PL-->>UI: Show Relapse/Sad Songs Playlist
+    else User types "energy >= 6"
+        UI->>FE: applyRules(energy >= 6)
+        FE->>Lib: getAllTracks()
+        Lib-->>FE: List<Track>
+        FE-->>PL: Create Playlist "Rap Songs"
+        PL-->>UI: Show Rap Songs Playlist
+    end
+```
