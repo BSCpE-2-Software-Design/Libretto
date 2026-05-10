@@ -17,10 +17,10 @@ int main() {
         char c = view.getInput();
         switch (c) {
         case 'j':
-            view.moveDown();
+            view.moveUp();
             break;
         case 'k':
-            view.moveUp();
+            view.moveDown();
             break;
         case 'f':
             view.addFilter();

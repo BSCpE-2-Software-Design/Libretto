@@ -10,7 +10,7 @@ private:
     Library& library;
     FilterEngine& filterEngine;
     std::vector<Track> currentView;
-    size_t selectedIndex;
+    int selectedIndex;
     int scrollOffset;
     const int maxVisible = 15;
 
