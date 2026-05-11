@@ -3,7 +3,74 @@ A terminal-based music library organizer with metadata tagging and dynamic, rule
 A console TUI for organizing music libraries through structured metadata tags and interactive keyboard-driven browsing.
 
 
-Flowchart – Music Library Tagger & Playlist Manager
+
+Class Diagram – Music Library Tagger & Playlist Manager
+```mermaid
+classDiagram
+    class Track {
+        string title
+        string artist
+        string genre
+        string mood
+        int energy
+    }
+
+    class Library {
+        +List<Track> tracks
+        +void loadLibrary()
+        +void addTrack(Track)
+        +List<Track> getTracks()
+    }
+
+    class Rule {
+        string field
+        string operator
+        string value
+        +bool matches(Track)
+    }
+
+    class FilterEngine {
+        +List<Rule> activeRules
+        +List<Track> applyRules(List<Track>)
+        +void clearRules()
+        +void addRule(Rule)
+    }
+
+    class Playlist {
+        string name
+        +List<Rule> rules
+        +void saveRules(List<Rule>)
+        +List<Track> generate(Library)
+    }
+
+    class BrowserView {
+        +void displayTracks(List<Track>)
+        +void highlightTrack(Track)
+        +void navigateUp()
+        +void navigateDown()
+    }
+
+    class App {
+        +void start()
+        +void handleInput()
+        +void exit()
+    }
+
+    Library "1" --> "*" Track
+    FilterEngine "1" --> "*" Rule
+    Playlist "1" --> "*" Rule
+    FilterEngine --> Library
+    BrowserView --> FilterEngine
+    App --> BrowserView
+    App --> FilterEngine
+    App --> Library
+    App --> Playlist
+```
+
+
+
+
+Flowchart 
 ```mermaid
 flowchart TB
     Start([Start App]) --> LoadLib[Load or Define Library<br/>15+ Tracks, Metadata Fields]
