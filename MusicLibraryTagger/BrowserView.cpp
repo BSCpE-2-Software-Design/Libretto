@@ -6,6 +6,10 @@
 
 BrowserView::BrowserView(Library& lib, FilterEngine& fe)
     : library(lib), filterEngine(fe), selectedIndex(-1), scrollOffset(0) {
+    playing = false;
+    playbackPos = 0;
+    // Load preset library from F_Rule.json (optional)
+    filterEngine.loadPresetLibrary("F_Rule.json");
     updateCurrentView();
 }
 
@@ -31,7 +35,7 @@ void BrowserView::renderTracks() {
         }
     }
     std::cout << std::endl;
-    std::cout << "------------------------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "-------------------------------------------------------------------------------------------------------------+" << std::endl;
 
     int start = scrollOffset;
     int end = std::min(start + maxVisible, (int)currentView.size());
@@ -46,11 +50,11 @@ void BrowserView::renderTracks() {
         std::cout << "| " << std::setw(30) << std::left << track.getArtist().substr(0, 35);
         std::cout << "| " << std::setw(13) << std::left << track.getGenre() ;
         std::cout << "| " << std::setw(15) << std::left << track.getMood();
-        std::cout << "| " << std::setw(5) << std::left << track.getEnergy() << " | ";
+        std::cout << "| " << std::setw(4) << std::left << track.getEnergy() << " | ";
         std::cout << std::endl;
     }
 
-    std::cout << "----------------------------------------------------------------------" << std::endl;
+    std::cout << "-------------------------------------------------------------------------------------------------------------+" << std::endl;
 }
 
 void BrowserView::renderFooter() {
@@ -60,14 +64,69 @@ void BrowserView::renderFooter() {
         sel = currentView[selectedIndex].toString();
     }
     std::cout << "Selected: " << sel << std::endl;
-    std::cout << "Press j/k to navigate, f to filter, x to clear, s to save, q to quit" << std::endl;
+    // Show file path for selected track if available
+    if (selectedIndex >= 0 && selectedIndex < (int)currentView.size()) {
+        std::string fp = currentView[selectedIndex].getFilePath();
+        if (!fp.empty()) std::cout << "File: " << fp << std::endl;
+    }
+    // Playback UI
+    if (isPlaying()) {
+        renderNowPlaying();
+    }
+    std::cout << "Press j/k to navigate, f to filter, x to clear, s to save, p to play/pause, q to quit" << std::endl;
+}
+
+void BrowserView::renderNowPlaying() {
+    // draw a small boxed GUI showing now playing info
+    if (selectedIndex < 0 || selectedIndex >= (int)currentView.size()) return;
+    const auto& t = currentView[selectedIndex];
+    std::string title = t.getTitle();
+    std::string artist = t.getArtist();
+    std::string fp = t.getFilePath();
+
+    std::cout << "+---------------- Now Playing ----------------+" << std::endl;
+    std::cout << "| " << std::setw(44) << std::left << (title + " - " + artist) << "|" << std::endl;
+    std::cout << "| " << std::setw(44) << std::left << ("File: " + fp) << "|" << std::endl;
+
+    // advance playback
+    playbackPos = (playbackPos + 1) % (playbackBarLen + 1);
+    int filled = std::min(playbackBarLen, playbackPos);
+    std::cout << "| [";
+    for (int i = 0; i < filled; ++i) std::cout << "#";
+    for (int i = filled; i < playbackBarLen; ++i) std::cout << "-";
+    std::cout << "]" << std::setw(29) << std::right << "|" << std::endl;
+    std::cout << "+---------------------------------------------+" << std::endl;
+}
+
+void BrowserView::togglePlay() {
+    if (selectedIndex < 0 || selectedIndex >= (int)currentView.size()) return;
+    playing = !playing;
+    if (playing) playbackPos = 0;
+}
+
+bool BrowserView::isPlaying() const {
+    return playing && selectedIndex >= 0 && selectedIndex < (int)currentView.size();
+}
+
+std::string BrowserView::getSelectedFilePath() const {
+    if (selectedIndex >= 0 && selectedIndex < (int)currentView.size()) {
+        return currentView[selectedIndex].getFilePath();
+    }
+    return std::string();
 }
 
 void BrowserView::updateCurrentView() {
     currentView = filterEngine.apply(library.getAllTracks());
     if (currentView.empty()) {
         selectedIndex = -1;
-    } else if (selectedIndex >= (int)currentView.size()) {
+        // stop playback when no tracks
+        playing = false;
+    } else if (currentView.size() == 1) {
+        // If filtering yields a single track, select it automatically
+        selectedIndex = 0;
+        // auto-play the single filtered track
+        playing = true;
+    } else if (selectedIndex >= (int)currentView.size() || selectedIndex < 0) {
         selectedIndex = 0;
     }
     scrollOffset = std::max(0, (int)selectedIndex - maxVisible / 2);
@@ -123,11 +182,9 @@ void BrowserView::addFilter() {
         return;
     }
 
-    // If user provided a JSON filename, try to load rules from it
-    if (input.size() > 5 && input.substr(input.size() - 5) == ".json") {
-        bool ok = filterEngine.loadRules(input);
-        if (!ok) std::cout << "Failed to load rules from " << input << std::endl;
-        else updateCurrentView();
+    // Try to apply a preset from the loaded preset library (FilterEngine loads F_Rule.json on construction)
+    if (filterEngine.applyPresetMatchingInput(input)) {
+        updateCurrentView();
         return;
     }
 

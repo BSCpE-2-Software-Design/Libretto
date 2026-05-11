@@ -13,8 +13,13 @@ private:
     int selectedIndex;
     int scrollOffset;
     const int maxVisible = 15;
+    // Playback simulation
+    bool playing;
+    int playbackPos;
+    const int playbackBarLen = 30;
 
     void renderHeader();
+    void renderNowPlaying();
     void renderTracks();
     void renderFooter();
     void updateCurrentView();
@@ -28,5 +33,10 @@ public:
     void clearFilters();
     void savePlaylist();
     char getInput();
+    // Return the file path of the currently selected track or empty string if none
+    std::string getSelectedFilePath() const;
+    // Toggle playback (play / pause) for the selected track
+    void togglePlay();
+    bool isPlaying() const;
 };
 

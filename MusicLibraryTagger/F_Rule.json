@@ -1,0 +1,29 @@
+{
+  "presets": [
+    { "name": "Artist: Gloc_9", "rules": [ { "field": "artist", "op": "contains", "value": "Gloc_9" } ] },
+    { "name": "Artist: Gloc-9", "rules": [ { "field": "artist", "op": "contains", "value": "Gloc-9" } ] },
+    { "name": "Artist: Lil Jon & East Side Boyz", "rules": [ { "field": "artist", "op": "contains", "value": "Lil Jon & East Side Boyz" } ] },
+    { "name": "Artist: Hev Abi", "rules": [ { "field": "artist", "op": "contains", "value": "Hev Abi" } ] },
+    { "name": "Artist: Skusta Clee", "rules": [ { "field": "artist", "op": "contains", "value": "Skusta Clee" } ] },
+    { "name": "Artist: December Avenue", "rules": [ { "field": "artist", "op": "contains", "value": "December Avenue" } ] },
+    { "name": "Artist: Ace Banzuelo", "rules": [ { "field": "artist", "op": "contains", "value": "Ace Banzuelo" } ] },
+    { "name": "Artist: Olivia Rodrigo", "rules": [ { "field": "artist", "op": "contains", "value": "Olivia Rodrigo" } ] },
+    { "name": "Artist: Huntrix", "rules": [ { "field": "artist", "op": "contains", "value": "Huntrix" } ] },
+    { "name": "Artist: BABYMONSTER", "rules": [ { "field": "artist", "op": "contains", "value": "BABYMONSTER" } ] },
+    { "name": "Artist: BLACKPINK LISA", "rules": [ { "field": "artist", "op": "contains", "value": "BLACKPINK LISA" } ] },
+    { "name": "Artist: KATSEYE", "rules": [ { "field": "artist", "op": "contains", "value": "KATSEYE" } ] },
+    { "name": "Artist: BLACKPINK JENNIE", "rules": [ { "field": "artist", "op": "contains", "value": "BLACKPINK JENNIE" } ] },
+    { "name": "Artist: BTS", "rules": [ { "field": "artist", "op": "contains", "value": "BTS" } ] },
+    { "name": "Artist: Ben&Ben", "rules": [ { "field": "artist", "op": "contains", "value": "Ben&Ben" } ] },
+
+    { "name": "Genre: Rap", "rules": [ { "field": "genre", "op": "contains", "value": "Rap" } ] },
+    { "name": "Genre: Hip-Hop", "rules": [ { "field": "genre", "op": "contains", "value": "Hip-Hop" } ] },
+    { "name": "Genre: R&B", "rules": [ { "field": "genre", "op": "contains", "value": "R&B" } ] },
+    { "name": "Genre: OPM Rock", "rules": [ { "field": "genre", "op": "contains", "value": "OPM Rock" } ] },
+    { "name": "Genre: Pop", "rules": [ { "field": "genre", "op": "contains", "value": "Pop" } ] },
+    { "name": "Genre: Kpop", "rules": [ { "field": "genre", "op": "contains", "value": "Kpop" } ] },
+    { "name": "Genre: Indie Folk", "rules": [ { "field": "genre", "op": "contains", "value": "Indie Folk" } ] },
+
+    { "name": "Relapse (energy <= 5)", "rules": [ { "field": "energy", "op": "<=", "value": "5" } ] }
+  ]
+}
