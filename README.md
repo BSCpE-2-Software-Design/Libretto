@@ -90,7 +90,7 @@ flowchart TB
     WaitInput -->|x| ClearFilters[Clear All Rules<br/>Show All Tracks]
     ClearFilters --> UpdateView
 
-    WaitInput -->|s| SavePlaylist[Input Playlist Name<br/>Save activeRules]
+    WaitInput -->|s| SavePlaylist[Save activeRules]
     SavePlaylist --> StorePL[Store Playlist<br/>rules only, not songs]
     StorePL --> DisplayPL[Display Playlist<br/>Navigable View]
     DisplayPL --> WaitInput
@@ -106,6 +106,7 @@ flowchart TB
 
     L1 -.->|uses| L2
     L2 -.->|reads| L3
+
 ```
 
 
@@ -119,31 +120,34 @@ sequenceDiagram
     participant Playlist as Playlist Store
 
     User->>UI: Start App
-    UI->>Library: Load 15+ Tracks with Metadata (Title, Artist, Genre, Mood, Energy)
-    User->>UI: Tag tracks with attributes
-    User->>UI: Navigate with j/k keys
-    UI->>User: Highlight current track
+    UI->>Library: Load or Define Library (15+ Tracks, Metadata Fields)
+    User->>UI: Tag Tracks (Title, Artist, Genre, Mood, Energy)
+    UI->>User: Init BrowserView (Keyboard Navigation)
+
+    loop Navigation
+        User->>UI: Press "j/k" (Navigate)
+        UI->>User: Update Highlight
+    end
 
     User->>UI: Press "f" (Add Filter)
-    UI->>User: Prompt for field/operator/value
-    User->>UI: Enter filter criteria (e.g., Genre == Rap)
+    UI->>User: Prompt for Field/Operator/Value
+    User->>UI: Enter Filter Criteria
     UI->>FilterEngine: Create Rule Object
-    FilterEngine->>Library: Read track metadata
-    FilterEngine->>UI: Return filteredTracks
-    UI->>User: Display updated view
+    FilterEngine->>Library: Read Track Metadata
+    FilterEngine->>UI: applyRules(tracks + activeRules)
+    UI->>User: Display Updated View (filteredTracks)
 
     User->>UI: Press "x" (Clear Filters)
-    UI->>FilterEngine: Remove activeRules
-    FilterEngine->>UI: Return all tracks
-    UI->>User: Display full library
+    UI->>FilterEngine: Clear All Rules
+    FilterEngine->>UI: Return All Tracks
+    UI->>User: Display Full Library
 
     User->>UI: Press "s" (Save Playlist)
-    UI->>User: Prompt for playlist name
-    User->>UI: Enter name
     UI->>FilterEngine: Collect activeRules
-    FilterEngine->>Playlist: Save rules only
-    Playlist->>UI: Confirm playlist stored
-    UI->>User: Display playlist view
+    FilterEngine->>Playlist: Store Playlist (rules only, not songs)
+    Playlist->>UI: Confirm Playlist Stored
+    UI->>User: Display Playlist (Navigable View)
 
     User->>UI: Press "q" (Exit App)
+
 ```
