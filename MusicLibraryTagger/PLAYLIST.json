@@ -5,7 +5,7 @@
     "genre": "Rap",
     "mood": "Empowering",
     "energy": 8,
-    "filePath": "assets/Sirena.mp3"
+    "filePath": "Sirena/Gloc_9.mp3"
   },
   {
     "title": "Upuan",
@@ -13,7 +13,7 @@
     "genre": "Rap",
     "mood": "Reflective",
     "energy": 6,
-    "filePath": "assets/Upuan.mp3"
+    "filePath": "Upuan/Gloc_9.mp3"
   },
   {
     "title": "Get Low",
@@ -21,7 +21,7 @@
     "genre": "Hip-Hop",
     "mood": "Party",
     "energy": 10,
-    "filePath": "assets/Get_Low.mp3"
+    "filePath": "Get_Low/Lil_Jon_&_East_Side_Boyz.mp3"
   },
   {
     "title": "Alam mo ba Girl",
@@ -29,7 +29,7 @@
     "genre": "Rap",
     "mood": "Romantic",
     "energy": 7,
-    "filePath": "assets/Alam_mo_ba_Girl.mp3"
+    "filePath": "Alam_mo_ba_Girl/Hev_Abi.mp3"
   },
   {
     "title": "Para sa Streets",
@@ -37,7 +37,7 @@
     "genre": "Rap",
     "mood": "Gritty",
     "energy": 8,
-    "filePath": "assets/Para_sa_Streets.mp3"
+    "filePath": "Para_sa_Streets/Hev_Abi.mp3"
   },
   {
     "title": "Since Day One",
@@ -45,7 +45,7 @@
     "genre": "R&B",
     "mood": "Loving",
     "energy": 6,
-    "filePath": "assets/Since_Day_One.mp3"
+    "filePath": "Since_Day_One/Skusta_Clee.mp3"
   },
   {
     "title": "Lagabog",
@@ -53,7 +53,7 @@
     "genre": "Rap",
     "mood": "Hypnotic",
     "energy": 7,
-    "filePath": "assets/Lagabog.mp3"
+    "filePath": "Lagabog/Skusta Clee.mp3"
   },
   {
     "title": "Eroplanong Papel",
@@ -61,7 +61,7 @@
     "genre": "OPM Rock",
     "mood": "Melancholic",
     "energy": 5,
-    "filePath": "assets/Eroplanong_Papel.mp3"
+    "filePath": "Eroplanong_Papel/December_Avenue.mp3"
   },
   {
     "title": "Huling Sandali",
@@ -69,7 +69,7 @@
     "genre": "OPM Rock",
     "mood": "Heartbroken",
     "energy": 6,
-    "filePath": "assets/Huling_Sandali.mp3"
+    "filePath": "Huling_Sandali/December_Avenue.mp3"
   },
   {
     "title": "Bulong",
@@ -77,7 +77,7 @@
     "genre": "OPM Rock",
     "mood": "Intimate",
     "energy": 4,
-    "filePath": "assets/Bulong.mp3"
+    "filePath": "Bulong_December_Avenue.mp3"
   },
   {
     "title": "Muli",
@@ -85,7 +85,7 @@
     "genre": "Pop",
     "mood": "Nostalgic",
     "energy": 5,
-    "filePath": "assets/Muli.mp3"
+    "filePath": "Muli/Ace_Banzuelo.mp3"
   },
   {
     "title": "Deja Vu",
@@ -93,7 +93,7 @@
     "genre": "Pop",
     "mood": "Angsty",
     "energy": 7,
-    "filePath": "assets/Deja_Vu.mp3"
+    "filePath": "Deja_Vu/Oliva_Rodrigo.mp3"
   },
   {
     "title": "Drivers License",
@@ -101,7 +101,7 @@
     "genre": "Pop",
     "mood": "Heartbroken",
     "energy": 6,
-    "filePath": "assets/Drivers_License.mp3"
+    "filePath": "Drivers_License/Olivia_Rodrigo.mp3"
   },
   {
     "title": "Golden",
@@ -109,7 +109,7 @@
     "genre": "Kpop",
     "mood": "Uplifting",
     "energy": 8,
-    "filePath": "assets/Golden.mp3"
+    "filePath": "Golden/Huntrix.mp3"
   },
   {
     "title": "Hot Sauce",
@@ -117,7 +117,7 @@
     "genre": "Kpop",
     "mood": "Energetic",
     "energy": 9,
-    "filePath": "assets/Hot_Sauce.mp3"
+    "filePath": "Hot_Sauce/BABYMONSTER.mp3"
   },
   {
     "title": "Lalisa",
@@ -125,7 +125,7 @@
     "genre": "Kpop",
     "mood": "Confident",
     "energy": 9,
-    "filePath": "assets/Lalisa.mp3"
+    "filePath": "Lalisa/BLACKPINK_LISA.mp3"
   },
   {
     "title": "Gabriella",
@@ -133,7 +133,7 @@
     "genre": "Kpop",
     "mood": "Empowering",
     "energy": 8,
-    "filePath": "assets/Gabriella.mp3"
+    "filePath": "Gabriella/KATSEYE.mp3"
   },
   {
     "title": "Like Jennie",
@@ -141,7 +141,7 @@
     "genre": "Kpop",
     "mood": "Sassy",
     "energy": 8,
-    "filePath": "assets/Like_Jennie.mp3"
+    "filePath": "Like_Jennie/BLACKPINK_JENNIE.mp3"
   },
   {
     "title": "2.0",
@@ -149,7 +149,7 @@
     "genre": "Kpop",
     "mood": "Triumphant",
     "energy": 9,
-    "filePath": "assets/2.0.mp3"
+    "filePath": "2.0/BTS.mp3"
   },
   {
     "title": "Kathang Isip",
@@ -157,7 +157,7 @@
     "genre": "Indie Folk",
     "mood": "Bittersweet",
     "energy": 5,
-    "filePath": "assets/Kathang_Isip.mp3"
+    "filePath": "Kathang_Isip/Ben&Ben.mp3"
   },
   {
     "title": "Lifetime",
@@ -165,6 +165,6 @@
     "genre": "Indie Folk",
     "mood": "Hopeful",
     "energy": 6,
-    "filePath": "assets/Lifetime.mp3"
+    "filePath": "Lifetime/Ben&Ben.mp3"
   }
 ]

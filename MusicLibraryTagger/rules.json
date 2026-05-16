@@ -1,0 +1,7 @@
+[
+    {
+        "field": "artist",
+        "op": "contains",
+        "value": "Hev Abi"
+    }
+]

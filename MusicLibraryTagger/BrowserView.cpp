@@ -25,7 +25,7 @@ void BrowserView::renderHeader() {
 }
 
 void BrowserView::renderTracks() {
-    std::cout << "[ Current View (" << currentView.size() << "/" << library.size() << " tracks)";
+    std::cout << " Current View (" << currentView.size() << "/" << library.size() << " tracks)";
     if (filterEngine.hasRules()) {
         std::cout << ") - Filters: ";
         auto rules = filterEngine.getRules();
@@ -64,16 +64,12 @@ void BrowserView::renderFooter() {
         sel = currentView[selectedIndex].toString();
     }
     std::cout << "Selected: " << sel << std::endl;
-    // Show file path for selected track if available
-    if (selectedIndex >= 0 && selectedIndex < (int)currentView.size()) {
-        std::string fp = currentView[selectedIndex].getFilePath();
-        if (!fp.empty()) std::cout << "File: " << fp << std::endl;
-    }
+
     // Playback UI
     if (isPlaying()) {
         renderNowPlaying();
     }
-    std::cout << "Press j/k to navigate, f to filter, x to clear, s to save, p to play/pause, q to quit" << std::endl;
+    std::cout << "Press j/k to navigate, f to filter, x to clear, s to save, q to quit" << std::endl;
 }
 
 void BrowserView::renderNowPlaying() {
@@ -86,15 +82,14 @@ void BrowserView::renderNowPlaying() {
 
     std::cout << "+---------------- Now Playing ----------------+" << std::endl;
     std::cout << "| " << std::setw(44) << std::left << (title + " - " + artist) << "|" << std::endl;
-    std::cout << "| " << std::setw(44) << std::left << ("File: " + fp) << "|" << std::endl;
+    std::cout << "| " << std::setw(44) << std::left << ("File: " + fp ) << "|" << std::endl;
 
     // advance playback
     playbackPos = (playbackPos + 1) % (playbackBarLen + 1);
     int filled = std::min(playbackBarLen, playbackPos);
-    std::cout << "| [";
-    for (int i = 0; i < filled; ++i) std::cout << "#";
-    for (int i = filled; i < playbackBarLen; ++i) std::cout << "-";
-    std::cout << "]" << std::setw(29) << std::right << "|" << std::endl;
+    std::cout << "| [-----------------------------------------";
+    std::cout << "]" << std::setw(35) << std::left << " |" << std::endl;
+    std::cout << "|                      ||                     |"<< std::setw(25) << std::right << std::endl;
     std::cout << "+---------------------------------------------+" << std::endl;
 }
 
@@ -121,6 +116,10 @@ void BrowserView::updateCurrentView() {
         selectedIndex = -1;
         // stop playback when no tracks
         playing = false;
+
+    }else if (currentView.size()){
+        selectedIndex = 0;
+        playing = true;
     } else if (currentView.size() == 1) {
         // If filtering yields a single track, select it automatically
         selectedIndex = 0;
@@ -170,7 +169,7 @@ void BrowserView::moveDown() {
 
 void BrowserView::addFilter() {
     std::string input;
-    std::cout << "\nEnter filter (e.g., 'genre == rap', 'energy <= 5', 'mood contains love'): ";
+    std::cout << "\nEnter filter (e.g., 'genre == rap', 'energy <= 5', 'mood == love'): ";
     std::getline(std::cin, input);
     // Trim
     auto ltrim = [](std::string &s) { s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) { return !std::isspace(ch); })); };

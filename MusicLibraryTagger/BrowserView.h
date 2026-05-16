@@ -16,7 +16,7 @@ private:
     // Playback simulation
     bool playing;
     int playbackPos;
-    const int playbackBarLen = 30;
+    const int playbackBarLen = 35;
 
     void renderHeader();
     void renderNowPlaying();
