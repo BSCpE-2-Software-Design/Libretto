@@ -150,18 +150,12 @@ void BrowserView::render() {
 }
 
 void BrowserView::moveUp() {
-    // If there are no tracks, nothing to do
     if (currentView.empty()) return;
-    // If nothing is selected yet, pressing 'j' should start the selection
-    // from the first item (index 0 — e.g., "sirena").
     if (selectedIndex < 0) {
         selectedIndex = 0;
-    }
-    // Normal move up: go to previous item if possible
-    else if (selectedIndex > 0) {
+    }else if (selectedIndex > 0) {
         selectedIndex--;
     }
-    // if already at 0, stay at 0
 
     scrollOffset = std::max(0, (int)selectedIndex - maxVisible / 2);
 }
@@ -192,19 +186,19 @@ void BrowserView::addFilter() {
     // Validation rules
     if (input.empty()) {
         std::cout << "[!] No filter entered.\n Tip: Entered genre (Ex. Rap, Kpop). \n";
-        std::cout << "Read First, then tap Enter to continue... TANGA!";
+        std::cout << "Tap Enter to continue...";
         std::cin.get();
         return;
     }
     if (std::all_of(input.begin(), input.end(), [](unsigned char c) { return std::ispunct(c); })) {
         std::cout << "[!] Invalid input: symbols are not allowed.Enter the correct word/command\n";
-        std::cout << "Read First, then tap Enter to continue... TANGA!" ;
+        std::cout << "Tap Enter to continue... " ;
         std::cin.get();
         return;
     }
     if (std::all_of(input.begin(), input.end(), ::isdigit)) {
         std::cout << "[!] Invalid input: numbers are not allowed.  \n";
-        std::cout << "Read First, then tap Enter to continue... TANGA!";
+        std::cout << "Tap Enter to continue... ";
         std::cin.get();
         return;
     }
@@ -216,7 +210,7 @@ void BrowserView::addFilter() {
         size_t pos = input.find_last_of(' ');
         if (pos != std::string::npos && std::islower(input[pos + 1])) {
             std::cout << "[!] Invalid input: Artist/Genre/Mood must start with a capital letter.'.\n";
-            std::cout << "Read First, then tap Enter to continue... TANGA!";
+            std::cout << "Then tap Enter to continue...";
             std::cin.get();
             return;
         }
@@ -242,8 +236,8 @@ void BrowserView::addFilter() {
         return;
     }
     else {
-        std::cout << "[!] Invalid filter format. Use 'field op value'.\nTip: Example: 'mood == Love'.\n";
-        std::cout << "Basahin muna, tapos Enter para magpatuloy...";
+        std::cout << "[!] Invalid filter format. Use 'field op value'.\n";
+        std::cout << "Tap Enter to continue... ";
         std::cin.get();
         return;
     }
@@ -287,7 +281,7 @@ char BrowserView::getInput() {
 
     if (c != 'j' && c != 'k' && c != 'f' && c != 's' && c != 'p' && c != 'q') {
         std::cout << "[!] Invalid command: Only j, k, f, s, p, and q are allowed.\n";
-        std::cout << "Read First, then tap Enter to continue... TANGA!";
+        std::cout << "Tap Enter to continue...";
         std::cin.get();
         return '\0'; 
     }
