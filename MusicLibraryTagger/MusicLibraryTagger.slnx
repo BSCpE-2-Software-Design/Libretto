@@ -5,4 +5,5 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="MusicLibraryTagger.vcxproj" Id="87d6b480-6792-423e-9644-58ad4b87a2a0" />
+  <Project Path="MusicTagger_Tests/MusicTagger_Tests.vcxproj" Id="ac9beb30-9018-4f4f-a6ea-a8c663575e01" />
 </Solution>

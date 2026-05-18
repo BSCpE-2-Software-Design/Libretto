@@ -1,7 +1,7 @@
 [
     {
-        "field": "artist",
-        "op": "contains",
-        "value": "Hev Abi"
+        "field": "genre",
+        "op": "==",
+        "value": "Rap"
     }
 ]
