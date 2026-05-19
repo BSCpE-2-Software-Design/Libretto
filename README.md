@@ -8,146 +8,123 @@ Class Diagram – Music Library Tagger & Playlist Manager
 ```mermaid
 classDiagram
     class Track {
-        string title
-        string artist
-        string genre
-        string mood
-        int energy
-    }
-
-    class Library {
-        +List<Track> tracks
-        +void loadLibrary()
-        +void addTrack(Track)
-        +List<Track> getTracks()
+        - string title
+        - string artist
+        - string genre
+        - string mood
+        - int energy
+        - string filePath
+        + Track()
+        + Track(t, a, g, m, e, fp)
+        + getTitle() string
+        + getArtist() string
+        + getGenre() string
+        + getMood() string
+        + getEnergy() int
+        + getFilePath() string
+        + toJson() json
+        + fromJson(json) Track
+        + toString() string
     }
 
     class Rule {
-        string field
-        string operator
-        string value
-        +bool matches(Track)
+        - string field
+        - string op
+        - string value
+        + Rule(f, o, v)
+        + toJson() json
+        + fromJson(json) Rule
+        + matches(track: Track) bool
+        + toString() string
+    }
+
+    class Library {
+        - vector<Track> tracks
+        + loadFromJson(filename: string) void
+        + getAllTracks() vector<Track>
+        + size() size_t
+        + getTrack(index: size_t) Track
     }
 
     class FilterEngine {
-        +List<Rule> activeRules
-        +List<Track> applyRules(List<Track>)
-        +void clearRules()
-        +void addRule(Rule)
-    }
-
-    class Playlist {
-        string name
-        +List<Rule> rules
-        +void saveRules(List<Rule>)
-        +List<Track> generate(Library)
+        - vector<Rule> rules
+        - vector<pair<string, vector<Rule>>> presets
+        + addRule(rule: Rule) void
+        + clearRules() void
+        + apply(tracks: vector<Track>) vector<Track>
+        + getRules() vector<Rule>
+        + hasRules() bool
+        + saveRules(filename: string) bool
+        + loadRules(filename: string) bool
+        + loadPresetLibrary(filename: string) bool
+        + applyPresetMatchingInput(input: string) bool
     }
 
     class BrowserView {
-        +void displayTracks(List<Track>)
-        +void highlightTrack(Track)
-        +void navigateUp()
-        +void navigateDown()
+        - Library& library
+        - FilterEngine& filterEngine
+        - vector<Track> currentView
+        - int selectedIndex
+        - int scrollOffset
+        - bool playing
+        - int playbackPos
+        - const int maxVisible
+        - const int playbackBarLen
+        + BrowserView(lib: Library, fe: FilterEngine)
+        + render() void
+        + moveUp() void
+        + moveDown() void
+        + addFilter() void
+        + clearFilters() void
+        + savePlaylist() void
+        + getInput() char
+        + getSelectedFilePath() string
+        + togglePlay() void
+        + isPlaying() bool
     }
 
-    class App {
-        +void start()
-        +void handleInput()
-        +void exit()
-    }
-
+    %% Relationships
     Library "1" --> "*" Track
     FilterEngine "1" --> "*" Rule
-    Playlist "1" --> "*" Rule
-    FilterEngine --> Library
-    BrowserView --> FilterEngine
-    App --> BrowserView
-    App --> FilterEngine
-    App --> Library
-    App --> Playlist
+    BrowserView "1" --> "1" Library
+    BrowserView "1" --> "1" FilterEngine
+    BrowserView "1" --> "*" Track
 ```
 
 
 
 
-Flowchart 
-```mermaid
-flowchart TB
-    Start([Start App]) --> LoadLib[Load or Define Library<br/>15+ Tracks, Metadata Fields]
-    LoadLib --> TagTracks[Tag Tracks<br/>Title, Artist, Genre, Mood, Energy]
-    TagTracks --> InitUI[Init BrowserView<br/>Keyboard Navigation]
-    InitUI --> WaitInput{Wait for Keypress}
 
-    WaitInput -->|j/k| Navigate[Move Selection Up/Down<br/>Update Highlight]
-    Navigate --> WaitInput
-
-    WaitInput -->|f| AddFilter[Add Filter<br/>Field + Operator + Value]
-    AddFilter --> CreateRule[Create Rule Object]
-    CreateRule --> ApplyFilter[FilterEngine.applyRules<br/>tracks + activeRules]
-    ApplyFilter --> UpdateView[Update filteredTracks<br/>Refresh Screen]
-    UpdateView --> WaitInput
-
-    WaitInput -->|x| ClearFilters[Clear All Rules<br/>Show All Tracks]
-    ClearFilters --> UpdateView
-
-    WaitInput -->|s| SavePlaylist[Save activeRules]
-    SavePlaylist --> StorePL[Store Playlist<br/>rules only, not songs]
-    StorePL --> DisplayPL[Display Playlist<br/>Navigable View]
-    DisplayPL --> WaitInput
-
-    WaitInput -->|q| Exit([Exit App])
-
-    subgraph Layers
-        direction LR
-        L1[Display Layer<br/>BrowserView] 
-        L2[Filter Logic<br/>FilterEngine + Rule + Playlist]
-        L3[Metadata Layer<br/>Library + Track<br/>Fields: Title, Artist, Genre, Mood, Energy]
-    end
-
-    L1 -.->|uses| L2
-    L2 -.->|reads| L3
-
-```
 
 
 Sequence Diagram 
 ```mermaid
 sequenceDiagram
     participant User
-    participant UI as BrowserView (Display Layer)
-    participant FilterEngine as FilterEngine (Logic Layer)
-    participant Library as Library (Metadata Layer)
-    participant Playlist as Playlist Store
+    participant BrowserView
+    participant FilterEngine
+    participant Library
+    participant Track
 
-    User->>UI: Start App
-    UI->>Library: Load or Define Library (15+ Tracks, Metadata Fields)
-    User->>UI: Tag Tracks (Title, Artist, Genre, Mood, Energy)
-    UI->>User: Init BrowserView (Keyboard Navigation)
+    User->>BrowserView: Start program
+    BrowserView->>FilterEngine: loadPresetLibrary("F_Rule.json")
+    BrowserView->>Library: getAllTracks()
+    Library-->>BrowserView: return tracks
+    BrowserView->>FilterEngine: apply(tracks)
+    FilterEngine-->>BrowserView: filtered tracks
+    BrowserView->>User: render UI (header, tracks, footer)
 
-    loop Navigation
-        User->>UI: Press "j/k" (Navigate)
-        UI->>User: Update Highlight
-    end
+    User->>BrowserView: press 'f' (addFilter)
+    BrowserView->>FilterEngine: addRule(rule)
+    BrowserView->>Library: getAllTracks()
+    Library-->>BrowserView: return tracks
+    BrowserView->>FilterEngine: apply(tracks)
+    FilterEngine-->>BrowserView: filtered tracks
+    BrowserView->>User: updateCurrentView()
 
-    User->>UI: Press "f" (Add Filter)
-    UI->>User: Prompt for Field/Operator/Value
-    User->>UI: Enter Filter Criteria
-    UI->>FilterEngine: Create Rule Object
-    FilterEngine->>Library: Read Track Metadata
-    FilterEngine->>UI: applyRules(tracks + activeRules)
-    UI->>User: Display Updated View (filteredTracks)
-
-    User->>UI: Press "x" (Clear Filters)
-    UI->>FilterEngine: Clear All Rules
-    FilterEngine->>UI: Return All Tracks
-    UI->>User: Display Full Library
-
-    User->>UI: Press "s" (Save Playlist)
-    UI->>FilterEngine: Collect activeRules
-    FilterEngine->>Playlist: Store Playlist (rules only, not songs)
-    Playlist->>UI: Confirm Playlist Stored
-    UI->>User: Display Playlist (Navigable View)
-
-    User->>UI: Press "q" (Exit App)
+    User->>BrowserView: press 'p' (togglePlay)
+    BrowserView->>Track: getFilePath()
+    BrowserView->>BrowserView: playFile(filePath)
+    BrowserView->>User: renderNowPlaying()
 
 ```
